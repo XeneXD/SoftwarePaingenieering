@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donation App</title>
+  <link rel="stylesheet" href="donationpage.css">
+</head>
+<body>
+  <!-- Donation Requests List (Main Screen) -->
+  <div class="requests-container" id="requests">
+    <header class="header">
+      <h1>Donations</h1>
+      <div class="search-bar">
+        <input type="text" placeholder="Search campaign">
+        <button class="search-icon">🔍</button>
+      </div>
+    </header>
+
+    <!-- Pull-to-refresh symbol -->
+    <div id="refreshSymbol" class="refresh-symbol">🔄</div>
+
+    <!-- Donation Cards List -->
+    <div id="requests-list" class="requests-list">
+      <div class="empty-message">
+        <p>There's no ongoing donation request</p>
+      </div>
+    </div>
+
+    <!-- Donation Box Icon -->
+    <div class="donation-box-icon" onclick="showUserDonations()">
+      <img src="donation-box-icon.png" alt="Donation Box">
+    </div>
+  </div>
+
+  <!-- Donation Box Interface (Hidden by Default) -->
+  <div class="donation-box-container" id="donationBoxContainer">
+    <header class="header">
+      <h1>My Donations</h1>
+      <button class="back-button" onclick="goBack()">← Back</button>
+    </header>
+    <div class="donation-box-content">
+      <img src="mydonationbox.png" alt="Donation Box">
+      <p>Welcome to your donation box. Here, you can view and manage your ongoing donations.</p>
+    </div>
+  </div>
+
+  <!-- Notifications Interface (Hidden by Default) -->
+<div class="notifications-container" id="notifications">
+  <header class="header">
+    <button class="back-button" onclick="goBack()">← Back</button>
+    <h1>Notifications</h1>
+  </header>
+  
+  <!-- Notification List -->
+  <div class="notification-list">
+    <div class="notification-item">
+      <p>Donation has been sent to Social Project.</p>
+      <span>5 Apr 2024</span>
+    </div>
+    <!-- Add more notification items as needed -->
+  </div>
+</div>
+
+
+<!-- Bottom Navigation Bar -->
+<nav class="bottom-navbar">
+  <ul>
+    <li><a href="#" class="nav-item" data-page="home" data-color="#4CAF50"><img src="home-icon.png" alt="Home">Home</a></li>
+    <li><a href="#" class="nav-item" data-page="donations" data-color="#FF9800"><img src="donation-icon.png" alt="Donations">Donations</a></li>
+    <li><a href="#" class="nav-item" data-page="notifications" data-color="#2196F3"><img src="notifications-icon.png" alt="Notifications">Notifications</a></li>
+    <li><a href="#" class="nav-item" data-page="settings" data-color="#9C27B0"><img src="settings-icon.png" alt="Settings">Settings</a></li>
+  </ul>
+</nav>
+
+  <script src="donationpage.js"></script>
+</body>
+</html>
