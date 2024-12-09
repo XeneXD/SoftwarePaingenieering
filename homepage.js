@@ -94,7 +94,7 @@ function setCurrentLocationForPickoff(inputElement) {
 function navigateToMap(inputElement) {
     const inputId = inputElement.id; // Determine which input triggered the navigation
     localStorage.setItem('mapTarget', inputId); // Save the target input ID
-    window.location.href = 'C:/Users/acer/Documents/New folder/SOFTENG PROJ/map.html';
+    window.location.href = 'map.html';
 }
 
 
@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Attach event listener to the "Drop-off Location" input
     dropoffInput.addEventListener('click', function () {
         // Navigate to the map page to select a new location
-        window.location.href = 'C:/Users/acer/Documents/New folder/SOFTENG PROJ/map.html';
+        window.location.href = 'map.html';
     });
 
     // Attach clear function to the clear button
@@ -149,7 +149,7 @@ function selectDropoffLocation(location) {
     // Example: location = "123 Main St, City, State"
     localStorage.setItem('selectedDropoffLocation', location);
     alert('Drop-off location selected! Returning to the homepage.');
-    window.location.href = 'C:/Users/acer/Documents/New folder/SOFTENG PROJ/map.html'; // Adjust to your homepage URL
+    window.location.href = 'map.html'; // Adjust to your homepage URL
 }
 
 // Function to handle submission and calculate arrival time
