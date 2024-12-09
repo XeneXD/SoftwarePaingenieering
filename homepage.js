@@ -51,6 +51,9 @@ function clearDropoffLocation() {
 }
 
 // Function to reverse geocode latitude and longitude to an address
+// JavaScript for Homepage
+
+// Function to reverse geocode latitude and longitude to an address
 function reverseGeocode(latitude, longitude, callback) {
     const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=YOUR_GOOGLE_MAPS_API_KEY`;
     fetch(geocodeUrl)
@@ -59,99 +62,125 @@ function reverseGeocode(latitude, longitude, callback) {
             if (data.results && data.results.length > 0) {
                 callback(data.results[0].formatted_address);
             } else {
-                callback("Address not found");
+                callback('Address not found');
             }
         })
-        .catch(error => console.error("Error during geocoding:", error));
+        .catch(error => console.error('Error during geocoding:', error));
 }
 
-// Function to set the current location in the Pick-off input
+// Function to set the current location in the "Pickoff Location" input
 function setCurrentLocationForPickoff(inputElement) {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
+        navigator.geolocation.getCurrentPosition(function (position) {
             const latitude = position.coords.latitude;
             const longitude = position.coords.longitude;
 
             // Reverse geocode to get a human-readable address
-            reverseGeocode(latitude, longitude, function(address) {
-                inputElement.value = address;  // Set the address in the input field
+            reverseGeocode(latitude, longitude, function (address) {
+                inputElement.value = address; // Set the address in the input field
             });
 
             // Optionally, store the coordinates in localStorage for later use
             localStorage.setItem('pickoffLocation', JSON.stringify({ latitude, longitude }));
-
-        }, function(error) {
-            alert("Unable to retrieve your location. Please try again.");
+        }, function (error) {
+            alert('Unable to retrieve your location. Please try again.');
         });
     } else {
-        alert("Geolocation is not supported by this browser.");
+        alert('Geolocation is not supported by this browser.');
     }
 }
 
-// Function to navigate to the map page with updated details
-function navigateToMap(element) {
-    let location;
-
-    // Determine the source of the click
-    if (element.id === 'pickup-location') {
-        // If it's the pickup location paragraph
-        location = element.innerText;
-    } else if (element.id === 'pickup-instruction') {
-        // If it's the pickup instruction input
-        const inputValue = element.value.trim();
-        if (!inputValue) {
-            alert("Please enter a pickup instruction before proceeding.");
-            return;
-        }
-        location = inputValue;
-    }
-
-    // Save the location in local storage to pass it to the map page
-    localStorage.setItem('location', location);
-
-    // Navigate to the map page
+// Function to handle navigation to the map page for pickoff location
+function navigateToMap(inputElement) {
+    const inputId = inputElement.id; // Determine which input triggered the navigation
+    localStorage.setItem('mapTarget', inputId); // Save the target input ID
     window.location.href = 'C:/Users/acer/Documents/New folder/SOFTENG PROJ/map.html';
 }
 
-// Function to attach event listeners when the DOM is fully loaded
+
+// DOMContentLoaded: Ensure elements exist before attaching events
 document.addEventListener('DOMContentLoaded', function () {
-    // Attach the submit function to the submit button
-    document.querySelector('.submit-btn').addEventListener('click', handleSubmit);
-
-    // Attach the clear function to the drop-off location button
-    document.querySelector('.clear-btn').addEventListener('click', clearDropoffLocation);
-
-    const pickupLocation = localStorage.getItem("pickupLocation");
-
-    // Display the pickup location in the input field
-    const pickupLocationInput = document.getElementById("pickup-location");
-    pickupLocationInput.value = pickupLocation || "Not Set";
-    
-    // Get the Pick-off Location input element
-    const pickoffInput = document.getElementById('pickoff-location');
-
-    // When the Pick-off Location input is clicked, get and set the current location
-    pickoffInput.addEventListener('click', function() {
-        setCurrentLocationForPickoff(this);
-    });
-
-    // Retrieve the selected drop-off location from localStorage and set it in the input field
+    // Retrieve the selected drop-off location from localStorage
     const dropoffLocation = localStorage.getItem('selectedDropoffLocation');
     const dropoffInput = document.getElementById('dropoff-location');
+
+    // Set the input field with the retrieved location, if it exists
     if (dropoffLocation) {
         dropoffInput.value = dropoffLocation;
     }
-    function handleSubmit() {
-        const timeDropdown = document.querySelector('.time-dropdown');
-        const selectedTime = timeDropdown.value;
-    
-        // Simulate arrival time calculation
-        const [hour, minute] = selectedTime.split(':').map(Number);
-        const arrivalHour = (hour + Math.floor((minute + 30) / 60)) % 24;
-        const arrivalMinute = (minute + 30) % 60;
-    
-        const formattedTime = `${arrivalHour}:${arrivalMinute.toString().padStart(2, '0')}`;
-        alert(`Thank you for submitting! The ride is estimated to arrive by ${formattedTime}.`);
+
+    // Attach event listener to the "Drop-off Location" input
+    dropoffInput.addEventListener('click', function () {
+        // Navigate to the map page to select a new location
+        window.location.href = 'C:/Users/acer/Documents/New folder/SOFTENG PROJ/map.html';
+    });
+
+    // Attach clear function to the clear button
+    const clearButton = document.querySelector('.clear-btn');
+    if (clearButton) {
+        clearButton.addEventListener('click', function () {
+            dropoffInput.value = ''; // Clear the input field
+            localStorage.removeItem('selectedDropoffLocation'); // Remove from localStorage
+        });
     }
-    
+
+    // Retrieve the selected pickup location from localStorage
+    const pickupLocation = localStorage.getItem('pickupLocation');
+    const pickupLocationInput = document.getElementById('pickup-location');
+    pickupLocationInput.value = pickupLocation || 'Not Set';
+
+    // Get the "Pickoff Location" input element
+    const pickoffInput = document.getElementById('pickoff-location');
+
+    // When the "Pickoff Location" input is clicked, get and set the current location
+    pickoffInput.addEventListener('click', function () {
+        setCurrentLocationForPickoff(this);
+    });
+
+    // Attach the submit function to the submit button
+    const submitButton = document.querySelector('.submit-btn');
+    if (submitButton) {
+        submitButton.addEventListener('click', handleSubmit);
+    }
 });
+
+// JavaScript for Map Page
+function selectDropoffLocation(location) {
+    // Example: location = "123 Main St, City, State"
+    localStorage.setItem('selectedDropoffLocation', location);
+    alert('Drop-off location selected! Returning to the homepage.');
+    window.location.href = 'C:/Users/acer/Documents/New folder/SOFTENG PROJ/map.html'; // Adjust to your homepage URL
+}
+
+// Function to handle submission and calculate arrival time
+// Function to handle the submit action
+function handleSubmit(event) {
+    event.preventDefault();  // Prevent the form from submitting if it's inside a form
+
+    const timeDropdown = document.querySelector('.time-dropdown');
+    const selectedTime = timeDropdown.value;
+
+    // Assuming a 30-minute arrival estimate for simplicity
+    const [hour, minutePart] = selectedTime.split(':');
+    const [minute, period] = minutePart.split(' ');
+
+    let possibleHour = parseInt(hour, 10);
+    let possibleMinute = parseInt(minute, 10) + 30;
+
+    if (possibleMinute >= 60) {
+        possibleMinute -= 60;
+        possibleHour += 1;
+    }
+
+    let possiblePeriod = period; // fix the variable scope issue
+    if (possibleHour > 12) {
+        possibleHour -= 12;
+        possiblePeriod = period === 'AM' ? 'PM' : 'AM';
+    }
+
+    const formattedMinute = possibleMinute < 10 ? `0${possibleMinute}` : possibleMinute;
+    const arrivalTime = `${possibleHour}:${formattedMinute} ${possiblePeriod}`;
+
+    alert(`Thank you for submitting! The ride is estimated to arrive by ${arrivalTime}.`);
+}
+

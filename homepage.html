@@ -220,17 +220,27 @@
     <div class="container">
         <header class="header">
             <h2>Donation Food Details</h2>
-           <div class="search-bar">
-                <img src="../backgroundpic/location.png" alt="Location Icon" class="location-icon">
-                <input type="text" placeholder="Pick-off Location?" id="pickoff-location" class="address-input" onclick="navigateToMap(this)">
-                <button class="clear-btn" onclick="clearDropoffLocation()">✕</button>
-            </div>
             <div class="search-bar">
                 <img src="../backgroundpic/location.png" alt="Location Icon" class="location-icon">
-                <input type="text" placeholder="Drop-off Location?" id="dropoff-location" class="address-input" onclick="navigateToMap(this)">
-                <button class="clear-btn" onclick="clearDropoffLocation()">✕</button>
+                <input 
+                    type="text" 
+                    placeholder="Pick-off Location?" 
+                    id="pickoff-location" 
+                    class="address-input" 
+                    onclick="navigateToMap(this, 'pickoff')">
+                <button class="clear-btn" onclick="clearPickoffLocation()">✕</button>
             </div>
             
+            <div class="search-bar">
+                <img src="../backgroundpic/location.png" alt="Location Icon" class="location-icon">
+                <input 
+                    type="text" 
+                    placeholder="Drop-off Location?" 
+                    id="dropoff-location" 
+                    class="address-input" 
+                    onclick="navigateToMap(this, 'dropoff')">
+                <button class="clear-btn" onclick="clearDropoffLocation()">✕</button>
+            </div>
         </header>
 
         <div class="food-category">
@@ -298,10 +308,7 @@
             
         </div>
     
-        <div class="submit-section">
-            <button type="button" class="submit-btn">Submit</button>
-        </div>
-        </div>
+        <button class="submit-btn">Submit</button>
 
     <script src="homepageFolder/homepage.js"></script>
 </body>
