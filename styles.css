@@ -1,0 +1,108 @@
+/* General Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #f4f4f4;
+}
+
+/* Header Styles */
+header {
+  background: #4CAF50;
+  color: #ffffff;
+  text-align: center;
+  padding: 10px 0;
+}
+
+header h1 {
+  font-size: 2rem;
+  margin-bottom: 5px;
+}
+
+header p {
+  font-size: 1.2rem;
+  color: #e0e0e0;
+}
+
+/* Navigation Tabs */
+.nav-tabs {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  background-color: #ffffff;
+  border-bottom: 2px solid #ddd;
+}
+
+.nav-tabs li {
+  margin: 0 10px;
+}
+
+.nav-tabs a {
+  text-decoration: none;
+  padding: 5px;
+  margin: 10px;
+  color: #35424a;
+  
+}
+
+.nav-tabs a:hover {
+  background-color: #ddd;
+}
+
+/* Section Styles */
+.content-section {
+  display: none;
+  margin: 20px;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.content-section.active {
+  display: block;
+}
+
+/* Impact Summary */
+.impact-summary p {
+  margin-top: 20px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #4CAF50;
+}
+
+/* Buttons (for mobile or other uses) */
+button {
+  background-color: #35424a;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #3e5a70;
+}
+
+/* Footer */
+footer {
+  background-color: #f1f1f1;
+  text-align: center;
+  padding: 10px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+/* Volunteer Dashboard Specific */
+.volunteer-dashboard {
+  text-align: center;
+}

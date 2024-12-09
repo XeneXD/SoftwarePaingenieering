@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Food Rescuer Map</title>
+  <link rel="stylesheet" href="styles.css">
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+  crossorigin=""/>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+  crossorigin=""></script>
+  
+  <style>
+    #map {
+      height: 500px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+    <div id="map"></div>
+
+
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([10.319313038960459, 123.89279218745095], 13);
+
+        // Add tile layer
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        // Function to handle drop-off location selection
+        function selectAsDropOff(locationName) {
+          const isConfirmed = confirm(`Confirm "${locationName}" as your drop-off location?`);
+          if (isConfirmed) {
+            localStorage.setItem('selectedDropoffLocation', locationName);
+            window.location.href = 'C:/Users/acer/Documents/New folder/SOFTENG PROJ/homepageFolder/homepage.html'; // Redirect to homepage
+          }
+        }
+
+        // Function to create a marker with a custom popup
+       function createMarker(lat, lng, locationName, address, phone, website, email, imageUrl) {
+        var popupContent = `
+            <h3>${locationName}</h3>
+            <img src="${imageUrl}" style="width: 100%; max-height: 200px; object-fit: cover; border-radius: 5px;"><br>
+            <b>Address:</b> ${address}<br>
+            <b>Visit website:</b> <a href="${website}" target="_blank">${website}</a><br>
+            <b>Phone number:</b> ${phone}<br>
+            <b>Email:</b> ${email}<br>
+            <button onclick="selectAsDropOff('${locationName}')">Select as My Drop-Off</button>
+        `;
+
+        var marker = L.marker([lat, lng]).addTo(map);
+        marker.bindPopup(popupContent);
+        }
+
+
+        // Add markers for each location
+        createMarker(
+          10.321999286768413, 
+          123.91335528869894, 
+          'Cebu Food Bank & Soup Kitchen',
+          '2nd Floor, Pacific Square, Ayala Access Road, Mabolo, Cebu City Philippines',
+          '(032) 417 3322',
+          'http://www.cebufoodbank.com/',
+          'info@cebufoodbank.com',
+          'https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=JbYs2u_fob5o9GRz6KGvig&cb_client=search.gws-prod.gps&w=408&h=240&yaw=145.5623&pitch=0&thumbfov=100'
+        );
+
+        createMarker(
+          10.309108115116047, 
+          123.8819657626629, 
+          'Rise Above Foundation Cebu Office',
+          '252, I. Limkakeng St., Happy Valley Subd., Guadalupe, 6000 Cebu City, Philippines',
+          '+63 32 255 1063 / +63 32 255 1973',
+          'https://riseabove-cebu.org/',
+          'riseabove@riseabove-cebu.org',
+          'https://lh5.googleusercontent.com/p/AF1QipMPlRS57qtnOzcHXAvSM1QeSuI8Wcmg_S48nMi_=w408-h271-k-no'
+        );
+
+        createMarker(
+          10.307374, 
+          123.893339, 
+          'Redemptorist Church',
+          'Queen’s Rd, Cebu City, Philippines',
+          '+63 32 255 1234',
+          'https://example.com/',
+          'redemptorist@church.org',
+          'https://example.com/image3.jpg'
+        );
+
+        createMarker(
+          10.311426, 
+          123.890719, 
+          'Good Shepherd Church',
+          'Banawa Hills, Cebu City, Philippines',
+          '+63 32 255 4321',
+          'https://example.com/',
+          'goodshepherd@church.org',
+          'https://example.com/image4.jpg'
+        );
+
+        // Function to update map with current location
+        function updateLocationOnMap(lat, lon) {
+          map.setView([lat, lon], 16);
+          L.marker([lat, lon]).addTo(map)
+            .bindPopup("You are here!")
+            .openPopup();
+        }
+
+        // Check if the user clicked 'Pick-off Location'
+        document.addEventListener('DOMContentLoaded', function () {
+          const isPickoffLocation = localStorage.getItem('isPickoffLocation') === 'true';
+          
+          if (isPickoffLocation) {
+            // Ask for user's location
+            if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition(function(position) {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+
+                // Update map with current location
+                updateLocationOnMap(latitude, longitude);
+                
+                // Clear the storage flag after location is updated
+                localStorage.removeItem('isPickoffLocation');
+              }, function(error) {
+                alert("Unable to retrieve your location. Please allow location access.");
+              });
+            } else {
+              alert("Geolocation is not supported by this browser.");
+            }
+          }
+        });
+
+        // Function to be triggered when the user clicks "Pick-off Location"
+        function pickOffLocation() {
+          // Set a flag to indicate that the user has clicked 'Pick-off Location'
+          localStorage.setItem('isPickoffLocation', 'true');
+          window.location.href = 'map.html'; // Redirect to the map page
+        }
+
+    </script>
+
+    <!-- You can add a button or trigger for the 'Pick-off Location' action -->
+    <button onclick="pickOffLocation()">Pick-off Location</button>
+
+</body>
+</html>

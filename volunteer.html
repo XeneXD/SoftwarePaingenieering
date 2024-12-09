@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Volunteer Portal</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="volunteer-dashboard">
+    <!-- Header / Navigation Tabs -->
+    <header>
+      <h1>Volunteer Portal</h1>
+      <p>Your efforts make a difference. Let’s get started!</p>
+      <nav>
+        <ul class="nav-tabs">
+          <li><a href="#" onclick="showSection('profile')">Profile</a></li>
+          <li><a href="#" onclick="showSection('pickupLocations')">Pickup Locations</a></li>
+          <li><a href="#" onclick="showSection('assignments')">My Assignments</a></li>
+          <li><a href="#" onclick="showSection('history')">History</a></li>
+          <li><a href="#" onclick="showSection('events')">Events</a></li>
+          <li><a href="#" onclick="showSection('notifications')">Notifications</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Sections -->
+    <main>
+      <!-- Profile Section -->
+      <section id="profile" class="content-section active">
+        <h2>Your Profile</h2>
+        <p><b>Name:</b> [Volunteer Name]</p>
+        <p><b>Email:</b> volunteer@example.com</p>
+        <p><b>Joined:</b> January 2023</p>
+        <div class="impact-summary">
+          <p>You've rescued <b>50 meals</b> so far! Keep up the good work!</p>
+        </div>
+      </section>
+
+      <!-- Pickup Locations Section with Embedded Map -->
+      <section id="pickupLocations" class="content-section">
+        <h2>Pickup Locations</h2>
+        <p>View available pickup locations near you.</p>
+        <iframe src="map.html" style="width:100%; height:500px; border:none;"></iframe>
+      </section>
+
+      <!-- Assignments Section -->
+      <section id="assignments" class="content-section">
+        <h2>My Assignments</h2>
+        <ul>
+          <li>Help pack foods into boxes.</li>
+          <li>Assist in sorting donations at the center.</li>
+          <li>Deliver food packages to shelters.</li>
+        </ul>
+      </section>
+
+      <!-- History Section -->
+      <section id="history" class="content-section">
+        <h2>Volunteer History</h2>
+        <ul>
+          <li>You picked up food donations from the local market.</li>
+          <li>You participated in the "Help the Homeless" event.</li>
+          <li>Helped organize meals during the community kitchen initiative.</li>
+        </ul>
+      </section>
+
+      <!-- Events Section -->
+      <section id="events" class="content-section">
+        <h2>Upcoming Events</h2>
+        <ul>
+          <li>Upcoming Donation Drive at <b>ABC Organization</b> – Oct 25.</li>
+          <li>Join the relief efforts for typhoon victims – Oct 30.</li>
+          <li>Volunteer at the annual charity gala – Nov 5.</li>
+        </ul>
+      </section>
+
+      <!-- Notifications Section -->
+      <section id="notifications" class="content-section">
+        <h2>Notifications</h2>
+        <ul>
+          <li><b>Volunteers needed</b> at the community center.</li>
+          <li>Help needed for packing winter clothing donations.</li>
+          <li><b>Urgent:</b> Drivers needed for food delivery routes.</li>
+        </ul>
+      </section>
+    </main>
+  </div>
+
+  <footer>
+    © 2024 Food Rescuer Project
+  </footer>
+
+  <script>
+    // JavaScript to handle section navigation
+    function showSection(sectionId) {
+      const sections = document.querySelectorAll('.content-section');
+      sections.forEach(section => section.classList.remove('active'));
+
+      const activeSection = document.getElementById(sectionId);
+      activeSection.classList.add('active');
+    }
+  </script>
+
+</body>
+</html>
