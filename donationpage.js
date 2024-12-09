@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function donateNow() {
-  window.location.href = 'SOFTENG PROJ/homepageFolder/homepage.html';
+  window.location.href = 'donor.html';
 }
 
 function setupNavigation() {
