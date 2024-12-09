@@ -60,10 +60,10 @@
             cursor: pointer;
         }
         .location-icon {
-        height: 30px; /* Same height as the text input */
-        width: 30px; /* Set to maintain a square ratio */
-        margin-right: 10px; /* Add spacing between the icon and the input */
-}
+            height: 30px; /* Same height as the text input */
+            width: 30px; /* Set to maintain a square ratio */
+            margin-right: 10px; /* Add spacing between the icon and the input */
+        }
 
         .pickup-input {
             width: 100%;
@@ -311,5 +311,58 @@
         <button class="submit-btn">Submit</button>
 
     <script src="homepageFolder/homepage.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Retrieve the selected pick-off location from localStorage
+            const pickoffLocation = localStorage.getItem('selectedPickoffLocation');
+            const pickoffInput = document.getElementById('pickoff-location');
+        
+            // Set the input field with the retrieved location, if it exists
+            if (pickoffLocation) {
+                pickoffInput.value = pickoffLocation;
+                alert(`Pick-off location: ${pickoffLocation}`); // Print the pick-off location
+            }
+        
+            // Retrieve the selected drop-off location from localStorage
+            const dropoffLocation = localStorage.getItem('selectedDropoffLocation');
+            const dropoffInput = document.getElementById('dropoff-location');
+        
+            // Set the input field with the retrieved location, if it exists
+            if (dropoffLocation) {
+                dropoffInput.value = dropoffLocation;
+            }
+        
+            // Attach event listener to the "Drop-off Location" input
+            dropoffInput.addEventListener('click', function () {
+                // Navigate to the map page to select a new location
+                window.location.href = 'map.html';
+            });
+        
+            // Attach clear function to the clear button
+            const clearButton = document.querySelector('.clear-btn');
+            if (clearButton) {
+                clearButton.addEventListener('click', function () {
+                    dropoffInput.value = ''; // Clear the input field
+                    localStorage.removeItem('selectedDropoffLocation'); // Remove from localStorage
+                });
+            }
+        
+            // Retrieve the selected pickup location from localStorage
+            const pickupLocation = localStorage.getItem('pickupLocation');
+            const pickupLocationInput = document.getElementById('pickup-location');
+            pickupLocationInput.value = pickupLocation || 'Not Set';
+        
+            // When the "Pickoff Location" input is clicked, get and set the current location
+            pickoffInput.addEventListener('click', function () {
+                setCurrentLocationForPickoff(this);
+            });
+        
+            // Attach the submit function to the submit button
+            const submitButton = document.querySelector('.submit-btn');
+            if (submitButton) {
+                submitButton.addEventListener('click', handleSubmit);
+            }
+        });
+        </script>
 </body>
 </html>

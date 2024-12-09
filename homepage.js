@@ -50,8 +50,13 @@ function clearDropoffLocation() {
     localStorage.removeItem('selectedDropoffLocation'); // Clear it from localStorage as well
 }
 
-// Function to reverse geocode latitude and longitude to an address
-// JavaScript for Homepage
+// Function to clear the pick-off location
+function clearPickoffLocation() {
+    const pickoffInput = document.getElementById('pickoff-location');
+    pickoffInput.value = '';  // Clear the input value
+    pickoffInput.placeholder = 'Pick-off location';  // Reset the placeholder
+    localStorage.removeItem('selectedPickoffLocation'); // Clear it from localStorage as well
+}
 
 // Function to reverse geocode latitude and longitude to an address
 function reverseGeocode(latitude, longitude, callback) {
@@ -91,15 +96,25 @@ function setCurrentLocationForPickoff(inputElement) {
 }
 
 // Function to handle navigation to the map page for pickoff location
-function navigateToMap(inputElement) {
+function navigateToMap(inputElement, type) {
     const inputId = inputElement.id; // Determine which input triggered the navigation
     localStorage.setItem('mapTarget', inputId); // Save the target input ID
+    localStorage.setItem('locationType', type); // Save the location type (pickoff or dropoff)
     window.location.href = 'map.html';
 }
 
-
 // DOMContentLoaded: Ensure elements exist before attaching events
 document.addEventListener('DOMContentLoaded', function () {
+    // Retrieve the selected pick-off location from localStorage
+    const pickoffLocation = localStorage.getItem('selectedPickoffLocation');
+    const pickoffInput = document.getElementById('pickoff-location');
+
+    // Set the input field with the retrieved location, if it exists
+    if (pickoffLocation) {
+        pickoffInput.value = pickoffLocation;
+        console.log(`Pick-off location: ${pickoffLocation}`); // Print the pick-off location in console
+    }
+
     // Retrieve the selected drop-off location from localStorage
     const dropoffLocation = localStorage.getItem('selectedDropoffLocation');
     const dropoffInput = document.getElementById('dropoff-location');
@@ -129,9 +144,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const pickupLocationInput = document.getElementById('pickup-location');
     pickupLocationInput.value = pickupLocation || 'Not Set';
 
-    // Get the "Pickoff Location" input element
-    const pickoffInput = document.getElementById('pickoff-location');
-
     // When the "Pickoff Location" input is clicked, get and set the current location
     pickoffInput.addEventListener('click', function () {
         setCurrentLocationForPickoff(this);
@@ -153,7 +165,6 @@ function selectDropoffLocation(location) {
 }
 
 // Function to handle submission and calculate arrival time
-// Function to handle the submit action
 function handleSubmit(event) {
     event.preventDefault();  // Prevent the form from submitting if it's inside a form
 
@@ -183,4 +194,3 @@ function handleSubmit(event) {
 
     alert(`Thank you for submitting! The ride is estimated to arrive by ${arrivalTime}.`);
 }
-
