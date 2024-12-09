@@ -22,6 +22,16 @@
 
     <!-- Donation Cards List -->
     <div id="requests-list" class="requests-list">
+      <!-- Example Food Donation Request Card -->
+      <div class="donation-card">
+        <img src="food-donation.jpg" alt="Food Donation" class="donation-image">
+        <div class="donation-content">
+          <h2>Food Donation for Local Shelter</h2>
+          <p>Help us provide meals for those in need. Your donation will support our local shelters.</p>
+          <button class="donate-button" onclick="donateNow()">Donate Now</button>
+        </div>
+      </div>
+
       <div class="empty-message">
         <p>There's no ongoing donation request</p>
       </div>
@@ -46,32 +56,31 @@
   </div>
 
   <!-- Notifications Interface (Hidden by Default) -->
-<div class="notifications-container" id="notifications">
-  <header class="header">
-    <button class="back-button" onclick="goBack()">← Back</button>
-    <h1>Notifications</h1>
-  </header>
-  
-  <!-- Notification List -->
-  <div class="notification-list">
-    <div class="notification-item">
-      <p>Donation has been sent to Social Project.</p>
-      <span>5 Apr 2024</span>
+  <div class="notifications-container" id="notifications">
+    <header class="header">
+      <button class="back-button" onclick="goBack()">← Back</button>
+      <h1>Notifications</h1>
+    </header>
+    
+    <!-- Notification List -->
+    <div class="notification-list">
+      <div class="notification-item">
+        <p>Donation has been sent to Social Project.</p>
+        <span>5 Apr 2024</span>
+      </div>
+      <!-- Add more notification items as needed -->
     </div>
-    <!-- Add more notification items as needed -->
   </div>
-</div>
 
-
-<!-- Bottom Navigation Bar -->
-<nav class="bottom-navbar">
-  <ul>
-    <li><a href="#" class="nav-item" data-page="home" data-color="#4CAF50"><img src="home-icon.png" alt="Home">Home</a></li>
-    <li><a href="#" class="nav-item" data-page="donations" data-color="#FF9800"><img src="donation-icon.png" alt="Donations">Donations</a></li>
-    <li><a href="#" class="nav-item" data-page="notifications" data-color="#2196F3"><img src="notifications-icon.png" alt="Notifications">Notifications</a></li>
-    <li><a href="#" class="nav-item" data-page="settings" data-color="#9C27B0"><img src="settings-icon.png" alt="Settings">Settings</a></li>
-  </ul>
-</nav>
+  <!-- Bottom Navigation Bar -->
+  <nav class="bottom-navbar">
+    <ul>
+      <li><a href="#" class="nav-item" data-page="home" data-color="#4CAF50"><img src="home-icon.png" alt="Home">Home</a></li>
+      <li><a href="#" class="nav-item" data-page="donations" data-color="#FF9800"><img src="donation-icon.png" alt="Donations">Donations</a></li>
+      <li><a href="#" class="nav-item" data-page="notifications" data-color="#2196F3"><img src="notifications-icon.png" alt="Notifications">Notifications</a></li>
+      <li><a href="#" class="nav-item" data-page="settings" data-color="#9C27B0"><img src="settings-icon.png" alt="Settings">Settings</a></li>
+    </ul>
+  </nav>
 
   <script src="donationpage.js"></script>
 </body>

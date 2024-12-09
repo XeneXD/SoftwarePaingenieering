@@ -75,7 +75,7 @@ body {
 
 /* Header */
 .header {
-  background-color: #ab47bc;
+  background-color: #66cc33;
   color: white;
   padding: 20px;
   border-radius: 15px 15px 0 0;
@@ -191,7 +191,6 @@ body {
   transition: opacity 0.3s ease, transform 0.3s ease; /* Smooth transition */
 }
 
-
 /* Pull-to-refresh Symbol */
 .refresh-symbol {
   text-align: center;
@@ -253,3 +252,47 @@ body {
   transition: opacity 0.3s ease;
 }
 
+/* Donation Card */
+.donation-card {
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px 10px;
+  overflow: hidden;
+}
+
+.donation-image {
+  width: 100%;
+  height: auto;
+}
+
+.donation-content {
+  padding: 20px;
+  text-align: center;
+}
+
+.donation-content h2 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.donation-content p {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.donate-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+}
+
+.donate-button:hover {
+  background-color: #45a049;
+}

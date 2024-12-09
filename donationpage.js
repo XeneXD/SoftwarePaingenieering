@@ -5,6 +5,10 @@ document.addEventListener('DOMContentLoaded', () => {
   setupNavigation();
 });
 
+function donateNow() {
+  window.location.href = 'SOFTENG PROJ/homepageFolder/homepage.html';
+}
+
 function setupNavigation() {
   const navItems = document.querySelectorAll('.nav-item');
   
