@@ -1,8 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
-  enablePullToRefresh('requests'); // Enable pull-to-refresh for the requests page
-  enablePullToRefresh('donationBoxContainer'); // Enable pull-to-refresh for the donation box page
-  enablePullToRefresh('notifications'); // Enable pull-to-refresh for the notifications page
+  enablePullToRefresh('requests');
+  enablePullToRefresh('donationBoxContainer');
+  enablePullToRefresh('notifications');
+  enablePullToRefresh('donations');
   setupNavigation();
+  hideAllContainers();  // Hide all containers initially
+  showRequests();  // Show the home container initially
+  checkForDonations();  // Check for donations on page load
+  setupSettings();  // Setup settings functionality
 });
 
 function donateNow() {
@@ -14,53 +19,46 @@ function setupNavigation() {
   
   navItems.forEach((item) => {
     item.addEventListener('click', function (event) {
-      event.preventDefault(); // Prevent default link behavior
-
-      // Remove active class from all items
+      event.preventDefault();
       navItems.forEach((i) => i.classList.remove('active'));
-      
-      // Set active class on clicked item
       this.classList.add('active');
-      
-      // Apply the icon color
       document.documentElement.style.setProperty('--active-color', this.dataset.color);
-
-      // Show the corresponding page based on the data-page attribute
       const page = this.dataset.page;
       if (page === 'notifications') {
         showNotifications();
       } else if (page === 'home') {
         showRequests();
+      } else if (page === 'donations') {
+        showDonationsHistory();
+      } else if (page === 'settings') {
+        showSettings();
       }
-      // Add other cases for other pages if needed
     });
   });
 }
 
-// Pull-to-refresh functionality for specific containers
 function enablePullToRefresh(containerId) {
   let startY;
   const refreshSymbol = document.getElementById('refreshSymbol');
-
   const container = document.getElementById(containerId);
   container.addEventListener('touchstart', (e) => {
     startY = e.touches[0].clientY;
   });
-
   container.addEventListener('touchmove', (e) => {
     const currentY = e.touches[0].clientY;
     if (currentY - startY > 50) {
       refreshSymbol.style.display = 'block';
     }
   });
-
-  container.addEventListener('touchend', () => {
-    refreshSymbol.style.display = 'none';
-    refreshContent(containerId);
+  container.addEventListener('touchend', (e) => {
+    const endY = e.changedTouches[0].clientY;
+    if (endY - startY > 50) {
+      refreshSymbol.style.display = 'none';
+      refreshContent(containerId);
+    }
   });
 }
 
-// Function to handle content refresh for different sections
 function refreshContent(containerId) {
   if (containerId === 'requests') {
     alert("Refreshing donation requests...");
@@ -71,63 +69,127 @@ function refreshContent(containerId) {
   } else if (containerId === 'notifications') {
     alert("Refreshing notifications...");
     // Add logic to refresh notifications
+  } else if (containerId === 'donations') {
+    alert("Refreshing donation history...");
+    // Add logic to refresh donation history
   }
 }
 
-// Show/hide functions for each page with animations
 function showNotifications() {
-  const requests = document.getElementById('requests');
-  const donationBoxContainer = document.getElementById('donationBoxContainer');
+  hideAllContainers();
   const notifications = document.getElementById('notifications');
-
-  // Hide other containers with animation
-  requests.classList.add('hidden');
-  donationBoxContainer.classList.add('hidden');
-  
-  setTimeout(() => {
-    requests.style.display = 'none';
-    donationBoxContainer.style.display = 'none';
-
-    // Show notifications container with animation
-    notifications.style.display = 'block';
-    setTimeout(() => notifications.classList.add('active'), 10);
-  }, 300);
+  notifications.style.display = 'block';
+  setTimeout(() => notifications.classList.add('active'), 10);
 }
 
 function showRequests() {
+  hideAllContainers();
   const requests = document.getElementById('requests');
-  const donationBoxContainer = document.getElementById('donationBoxContainer');
-  const notifications = document.getElementById('notifications');
-
-  // Hide other containers with animation
-  donationBoxContainer.classList.add('hidden');
-  notifications.classList.add('hidden');
-  
-  setTimeout(() => {
-    donationBoxContainer.style.display = 'none';
-    notifications.style.display = 'none';
-
-    // Show requests container with animation
-    requests.style.display = 'block';
-    setTimeout(() => requests.classList.add('active'), 10);
-  }, 300);
+  requests.style.display = 'block';
+  setTimeout(() => requests.classList.add('active'), 10);
 }
 
 function showUserDonations() {
-  const requests = document.getElementById('requests');
+  hideAllContainers();
   const donationBoxContainer = document.getElementById('donationBoxContainer');
-  const notifications = document.getElementById('notifications');
+  donationBoxContainer.style.display = 'block';
+  setTimeout(() => donationBoxContainer.classList.add('active'), 10);
+}
 
-  // Hide other containers with animation
-  requests.classList.add('hidden');
-  notifications.classList.add('hidden');
+function showDonationsHistory() {
+  hideAllContainers();
+  const donations = document.getElementById('donations');
+  donations.style.display = 'block';
+  setTimeout(() => donations.classList.add('active'), 10);
+}
 
+function showSettings() {
+  hideAllContainers();
+  const settings = document.getElementById('settings');
+  settings.style.display = 'block';
+  setTimeout(() => settings.classList.add('active'), 10);
+}
+
+function hideAllContainers() {
+  const containers = document.querySelectorAll('.requests-container, .donation-box-container, .notifications-container, .donations-container, .settings-container');
+  containers.forEach(container => {
+    container.style.display = 'none';
+    container.classList.remove('active');
+  });
+}
+
+function checkForDonations() {
+  const donationCards = document.querySelectorAll('.donation-card');
+  const emptyMessage = document.querySelector('.empty-message');
+  if (donationCards.length > 0) {
+    emptyMessage.style.display = 'none';
+  } else {
+    emptyMessage.style.display = 'block';
+  }
+}
+
+function goToHome() {
+  showRequests();
+  document.querySelector('.nav-item[data-page="home"]').classList.add('active');
+  highlightOngoingDonations();
+}
+
+function goBack() {
+  const activePage = document.querySelector('.nav-item.active');
+  if (activePage) {
+    const page = activePage.dataset.page;
+    if (page === 'donations') {
+      showRequests();
+    } else if (page === 'notifications') {
+      showRequests();
+    } else if (page === 'settings') {
+      showRequests();
+    } else {
+      showRequests();
+    }
+  } else {
+    showRequests();
+  }
+}
+
+function highlightOngoingDonations() {
+  const requestsList = document.getElementById('requests-list');
+  requestsList.classList.add('highlight');
   setTimeout(() => {
-    requests.style.display = 'none';
-    notifications.style.display = 'none';
+    requestsList.classList.remove('highlight');
+  }, 10000);
+}
 
-    // Show donation box container with animation
-    donationBoxContainer.style.display = 'block';
-    setTimeout(() => donationBoxContainer.classList.add('active'), 10);
-  }, 300);
+function setupSettings() {
+  const darkModeToggle = document.getElementById('darkModeToggle');
+  const notificationsToggle = document.getElementById('notificationsToggle');
+
+  darkModeToggle.addEventListener('change', toggleDarkMode);
+  notificationsToggle.addEventListener('change', toggleNotifications);
+
+  // Check local storage for dark mode preference
+  if (localStorage.getItem('darkMode') === 'enabled') {
+    darkModeToggle.checked = true;
+    document.body.classList.add('dark-mode');
+  }
+}
+
+function toggleDarkMode() {
+  const darkModeToggle = document.getElementById('darkModeToggle');
+  if (darkModeToggle.checked) {
+    document.body.classList.add('dark-mode');
+    localStorage.setItem('darkMode', 'enabled');
+  } else {
+    document.body.classList.remove('dark-mode');
+    localStorage.setItem('darkMode', 'disabled');
+  }
+}
+
+function toggleNotifications() {
+  const notificationsToggle = document.getElementById('notificationsToggle');
+  if (notificationsToggle.checked) {
+    alert("Real-time notifications enabled.");
+  } else {
+    alert("Real-time notifications disabled.");
+  }
 }

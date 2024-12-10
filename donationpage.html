@@ -10,7 +10,7 @@
   <!-- Donation Requests List (Main Screen) -->
   <div class="requests-container" id="requests">
     <header class="header">
-      <h1>Donations</h1>
+      <h1>Home</h1>
       <div class="search-bar">
         <input type="text" placeholder="Search campaign">
         <button class="search-icon">🔍</button>
@@ -24,14 +24,13 @@
     <div id="requests-list" class="requests-list">
       <!-- Example Food Donation Request Card -->
       <div class="donation-card">
-        <img src="food-donation.jpg" alt="Food Donation" class="donation-image">
+        <img src="assets/food-donation.png" alt="Food Donation" class="donation-image">
         <div class="donation-content">
           <h2>Food Donation for Local Shelter</h2>
           <p>Help us provide meals for those in need. Your donation will support our local shelters.</p>
           <button class="donate-button" onclick="donateNow()">Donate Now</button>
         </div>
       </div>
-
       <div class="empty-message">
         <p>There's no ongoing donation request</p>
       </div>
@@ -50,7 +49,7 @@
       <button class="back-button" onclick="goBack()">← Back</button>
     </header>
     <div class="donation-box-content">
-      <img src="mydonationbox.png" alt="Donation Box">
+      <img src="assets/donation-box-icon.png" alt="Donation Box">
       <p>Welcome to your donation box. Here, you can view and manage your ongoing donations.</p>
     </div>
   </div>
@@ -69,6 +68,48 @@
         <span>5 Apr 2024</span>
       </div>
       <!-- Add more notification items as needed -->
+    </div>
+  </div>
+
+  <!-- Donations History Interface (Hidden by Default) -->
+  <div class="donations-container" id="donations">
+    <header class="header">
+      <h1>Donation History</h1>
+      <button class="back-button" onclick="goBack()">← Back</button>
+    </header>
+    <div class="donations-list">
+      <!-- Example Completed Donation -->
+      <div class="donation-item">
+        <img src="assets/food-donation.png" alt="Food Donation" class="donation-image">
+        <div class="donation-content">
+          <h2>Food Donation for Local Shelter</h2>
+          <p>Completed on 5 Apr 2024</p>
+        </div>
+      </div>
+      <!-- Add more completed donation items as needed -->
+    </div>
+  </div>
+
+  <!-- Settings Interface (Hidden by Default) -->
+  <div class="settings-container" id="settings">
+    <header class="header">
+      <button class="back-button" onclick="goBack()">← Back</button>
+      <h1>Settings</h1>
+    </header>
+    <div class="settings-content">
+      <!-- Dark Mode Toggle -->
+      <div class="setting-item">
+        <label for="darkModeToggle">Dark Mode</label>
+        <input type="checkbox" id="darkModeToggle" onclick="toggleDarkMode()">
+      </div>
+      <!-- Real-Time Notifications Toggle -->
+      <div class="setting-item">
+        <label for="notificationsToggle">Real-Time Notifications</label>
+        <label class="switch">
+          <input type="checkbox" id="notificationsToggle">
+          <span class="slider round"></span>
+        </label>
+      </div>
     </div>
   </div>
 
