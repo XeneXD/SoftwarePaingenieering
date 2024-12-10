@@ -73,7 +73,7 @@ function reverseGeocode(latitude, longitude, callback) {
         .catch(error => console.error('Error during geocoding:', error));
 }
 document.getElementById('current-location-btn').addEventListener('click', function () {
-    window.location.href = 'H:/SOFTENG/SoftwarePaingenieering-main/map.html';
+    window.location.href = 'H:/SoftwarePaingenieering-main/map.html';
 });
 
 // Function to set the current location in the "Pickoff Location" input
@@ -103,7 +103,7 @@ function navigateToMap(inputElement, type) {
     const inputId = inputElement.id; // Determine which input triggered the navigation
     localStorage.setItem('mapTarget', inputId); // Save the target input ID
     localStorage.setItem('locationType', type); // Save the location type (pickoff or dropoff)
-    window.location.href = 'H:/SOFTENG/SoftwarePaingenieering-main/map.html';
+    window.location.href = 'H:/SoftwarePaingenieering-main/map.html';
 }
 
 // DOMContentLoaded: Ensure elements exist before attaching events
@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Attach event listener to the "Drop-off Location" input
     dropoffInput.addEventListener('click', function () {
         // Navigate to the map page to select a new location
-        window.location.href = 'H:/SOFTENG/SoftwarePaingenieering-main/map.html';
+        window.location.href = 'H:/SoftwarePaingenieering-main/map.html';
     });
 
     // Attach clear function to the clear button
@@ -170,34 +170,62 @@ function selectDropoffLocation(location) {
     window.location.href = 'H:/SOFTENG/SoftwarePaingenieering-main/map.html'; // Adjust to your homepage URL
 }
 
+document.addEventListener('DOMContentLoaded', function () {
+    const currentLocationButton = document.getElementById('current-location-btn');
+    if (currentLocationButton) {
+        currentLocationButton.addEventListener('click', function () {
+            window.location.href = 'H:/SOFTENG/SoftwarePaingenieering-main/map.html';
+        });
+    }
+});
+
 // Function to handle submission and calculate arrival time
 function handleSubmit(event) {
     event.preventDefault();  // Prevent the form from submitting if it's inside a form
 
     const timeDropdown = document.querySelector('.time-dropdown');
-    const selectedTime = timeDropdown.value;
+    if (!timeDropdown || !timeDropdown.value) {
+        alert('Please select a valid time.');
+        return;
+    }
 
-    // Assuming a 30-minute arrival estimate for simplicity
-    const [hour, minutePart] = selectedTime.split(':');
-    const [minute, period] = minutePart.split(' ');
+    const selectedTime = timeDropdown.value.trim();
+    if (!selectedTime) {
+        alert('Please select a valid time.');
+        return;
+    }
 
-    let possibleHour = parseInt(hour, 10);
-    let possibleMinute = parseInt(minute, 10) + 30;
+    let possibleHour = parseInt(selectedTime, 10);
+    if (isNaN(possibleHour)) {
+        alert('Please select a valid time.');
+        return;
+    }
 
+    let possibleMinute = 0; // Default minute to 0
+    let period = 'AM';
+
+    if (possibleHour >= 12) {
+        period = 'PM';
+        if (possibleHour > 12) {
+            possibleHour -= 12;
+        }
+    }
+
+    possibleMinute += 30;
     if (possibleMinute >= 60) {
         possibleMinute -= 60;
         possibleHour += 1;
+        if (possibleHour === 12) {
+            period = period === 'AM' ? 'PM' : 'AM';
+        }
     }
 
-    if (possibleHour > 12) {
-        possibleHour -= 12;
-        possiblePeriod = period === 'AM' ? 'PM' : 'AM';
-    } else {
-        possiblePeriod = period;
+    if (possibleHour === 0) {
+        possibleHour = 12;
     }
 
     const formattedMinute = possibleMinute < 10 ? `0${possibleMinute}` : possibleMinute;
-    const arrivalTime = `${possibleHour}:${formattedMinute} ${possiblePeriod}`;
+    const arrivalTime = `${possibleHour}:${formattedMinute} ${period}`;
 
     alert(`Thank you for submitting! The ride is estimated to arrive by ${arrivalTime}.`);
 }

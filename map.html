@@ -24,8 +24,8 @@
   <button id="current-location-btn">Pick Current Location</button>
 
   <script>
-    // Initialize the map
-    var map = L.map('map').setView([10.319313038960459, 123.89279218745095], 13);
+    // Initialize the map with USJR Basak Campus coordinates
+    var map = L.map('map').setView([10.2956, 123.8737], 13);
 
     // Add tile layer
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -43,26 +43,27 @@
         throw new Error('Failed to fetch location');
       }
     }
+
     function selectAsDropoff(locationName) {
-    const isConfirmed = confirm(`Confirm "${locationName}" as your drop-off location?`);
-    if (isConfirmed) {
+      const isConfirmed = confirm(`Confirm "${locationName}" as your drop-off location?`);
+      if (isConfirmed) {
         localStorage.setItem('selectedDropoffLocation', locationName);
-        window.location.href = 'H:/SOFTENG/SoftwarePaingenieering-main/homepage.html'; // Redirect to homepage
+        window.location.href = 'homepage.html'; // Redirect to homepage
+      }
     }
-}
 
     // Function to handle pick-off location selection
     function selectAsPickOff(locationName) {
       const isConfirmed = confirm(`Confirm "${locationName}" as your pick-off location?`);
       if (isConfirmed) {
         localStorage.setItem('selectedPickoffLocation', locationName);
-        window.location.href = 'H:/SOFTENG/SoftwarePaingenieering-main/homepage.html'; // Redirect to homepage
+        window.location.href = 'homepage.html'; // Redirect to homepage
       }
     }
 
     // Function to create a marker with a custom popup
     function createMarker(lat, lng, locationName, address, phone, website, email, imageUrl) {
-    var popupContent = `
+      var popupContent = `
         <h3>${locationName}</h3>
         <img src="${imageUrl}" style="width: 100%; max-height: 200px; object-fit: cover; border-radius: 5px;"><br>
         <b>Address:</b> ${address}<br>
@@ -71,11 +72,11 @@
         <b>Email:</b> ${email}<br>
         <button onclick="selectAsPickOff('${locationName}')">Select as My Pick-Off</button>
         <button onclick="selectAsDropoff('${locationName}')">Select as My Drop-Off</button>
-    `;
+      `;
 
-    var marker = L.marker([lat, lng]).addTo(map);
-    marker.bindPopup(popupContent);
-}
+      var marker = L.marker([lat, lng]).addTo(map);
+      marker.bindPopup(popupContent);
+    }
 
     // Add markers for each location
     createMarker(
@@ -144,37 +145,37 @@
       } else {
         alert('Geolocation is not supported by this browser.');
       }
-      
     });
+
     function calculateDistance(lat1, lon1, lat2, lon2) {
-        const R = 6371; // Radius of the Earth in kilometers
-        const dLat = (lat2 - lat1) * Math.PI / 180;
-        const dLon = (lon2 - lon1) * Math.PI / 180;
-        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                  Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-                  Math.sin(dLon / 2) * Math.sin(dLon / 2);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return R * c; // Distance in kilometers
+      const R = 6371; // Radius of the Earth in kilometers
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      return R * c; // Distance in kilometers
     }
 
     document.addEventListener('DOMContentLoaded', function () {
-        const urlParams = new URLSearchParams(window.location.search);
-        const pickoffLocation = urlParams.get('pickoff');
-        const dropoffLocation = urlParams.get('dropoff');
+      const urlParams = new URLSearchParams(window.location.search);
+      const pickoffLocation = urlParams.get('pickoff');
+      const dropoffLocation = urlParams.get('dropoff');
 
-        if (pickoffLocation && dropoffLocation) {
-            // Use a geocoding API to get lat/lon from location names
-            // For simplicity, using dummy coordinates here
-            const pickoffCoords = { lat: 10.319313, lon: 123.892792 }; // Replace with actual coordinates
-            const dropoffCoords = { lat: 10.321999, lon: 123.913355 }; // Replace with actual coordinates
+      if (pickoffLocation && dropoffLocation) {
+        // Use a geocoding API to get lat/lon from location names
+        // For simplicity, using dummy coordinates here
+        const pickoffCoords = { lat: 10.319313, lon: 123.892792 }; // Replace with actual coordinates
+        const dropoffCoords = { lat: 10.321999, lon: 123.913355 }; // Replace with actual coordinates
 
-            const distance = calculateDistance(
-                pickoffCoords.lat, pickoffCoords.lon,
-                dropoffCoords.lat, dropoffCoords.lon
-            );
+        const distance = calculateDistance(
+          pickoffCoords.lat, pickoffCoords.lon,
+          dropoffCoords.lat, dropoffCoords.lon
+        );
 
-            alert(`The distance between ${pickoffLocation} and ${dropoffLocation} is ${distance.toFixed(2)} km.`);
-        }
+        alert(`The distance between ${pickoffLocation} and ${dropoffLocation} is ${distance.toFixed(2)} km.`);
+      }
     });
   </script>
 

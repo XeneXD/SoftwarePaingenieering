@@ -293,59 +293,57 @@
 
         <div class="quantity">
             <p><strong>Quantity:</strong></p>
-            <select class="quantity-dropdown">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-            </select>
+            <input type="number" class="quantity-input" min="1" max="100" step="1" value="1">
         </div>
     
         <button class="submit-btn">Submit</button>
     </div>
 
-    <script src="homepage.js"></script>
+    <script src="H:/SoftwarePaingenieering-main/homepage.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const pickoffLocation = localStorage.getItem('selectedPickoffLocation');
             const pickoffInput = document.getElementById('pickoff-location');
-
-            if (pickoffLocation) {
+    
+            if (pickoffInput && pickoffLocation) {
                 pickoffInput.value = pickoffLocation;
             }
-
+    
             const dropoffLocation = localStorage.getItem('selectedDropoffLocation');
             const dropoffInput = document.getElementById('dropoff-location');
-
-            if (dropoffLocation) {
+    
+            if (dropoffInput && dropoffLocation) {
                 dropoffInput.value = dropoffLocation;
             }
-
-            dropoffInput.addEventListener('click', function () {
-                window.location.href = 'map.html';
-            });
-
+    
+            if (dropoffInput) {
+                dropoffInput.addEventListener('click', function () {
+                    window.location.href = 'map.html';
+                });
+            }
+    
             const clearButton = document.querySelector('.clear-btn');
             if (clearButton) {
                 clearButton.addEventListener('click', function () {
-                    dropoffInput.value = '';
-                    localStorage.removeItem('selectedDropoffLocation');
+                    if (dropoffInput) {
+                        dropoffInput.value = '';
+                        localStorage.removeItem('selectedDropoffLocation');
+                    }
                 });
             }
-
+    
             const pickupLocation = localStorage.getItem('pickupLocation');
             const pickupLocationInput = document.getElementById('pickup-location');
-            pickupLocationInput.value = pickupLocation || 'Not Set';
-
-            pickoffInput.addEventListener('click', function () {
-                setCurrentLocationForPickoff(this);
-            });
-
+            if (pickupLocationInput) {
+                pickupLocationInput.value = pickupLocation || 'Not Set';
+            }
+    
+            if (pickoffInput) {
+                pickoffInput.addEventListener('click', function () {
+                    setCurrentLocationForPickoff(this);
+                });
+            }
+    
             const submitButton = document.querySelector('.submit-btn');
             if (submitButton) {
                 submitButton.addEventListener('click', handleSubmit);
